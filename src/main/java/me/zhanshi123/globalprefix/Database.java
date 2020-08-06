@@ -65,6 +65,7 @@ public class Database {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            
         }
     }
 
@@ -86,6 +87,15 @@ public class Database {
             rs.close();
             preparedStatement.close();
         } catch (SQLException e) {
+            try {
+                assert rs != null;
+                rs.close();
+                preparedStatement.close();
+                checkConnection();
+                data = getData(name);
+            }catch (Exception E){
+                Bukkit.getLogger().info("Cant not Close statement:" + E);
+            }
             e.printStackTrace();
         }
         return data;
